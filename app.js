@@ -26,22 +26,31 @@ cloudinary.config({
 });
 
 //  routers
-
+const DenemeRouter = require("./routes/DenemeRoutes");
+const authRouter = require("./routes/authRoutes");
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-app.use(express.static(path.join(__dirname, "build")));
+
+app.set("trust proxy", 1);
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000,
+    max: 60,
+  })
+);
 app.use(helmet());
 app.use(cors());
 app.use(xss());
 app.use(mongoSanitize());
-
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
-
+app.use(express.static("./public"));
 app.use(fileUpload({ useTempFiles: true }));
 
 //app.use("api/v1") stuff will come here
+app.use("/api/v1/deneme", DenemeRouter);
+app.use("/api/v1/auth", authRouter);
 
 // Handle client-side routing
 app.get("*", (req, res) => {
@@ -52,6 +61,7 @@ app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 3002;
+
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
