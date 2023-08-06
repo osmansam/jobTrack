@@ -15,7 +15,9 @@ const UserSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 50,
   },
-
+  picture: {
+    type: String,
+  },
   email: {
     type: String,
     unique: true,
@@ -32,7 +34,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["admin", "superAdmin,user"],
+    enum: ["admin", "superAdmin", "user"],
     default: "user",
   },
   passwordTokenExpirationDate: {

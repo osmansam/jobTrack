@@ -8,7 +8,7 @@ const crypto = require("crypto");
 
 //REGISTER
 const register = async (req, res) => {
-  const { email, name, password, lastName } = req.body;
+  const { email, name, password, lastName, picture } = req.body;
 
   // check email exists
   const emailAlreadyExists = await User.findOne({ email });
@@ -26,6 +26,7 @@ const register = async (req, res) => {
     lastName,
     email,
     password,
+    picture,
     role,
   });
   res.status(StatusCodes.CREATED).json({
