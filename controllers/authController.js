@@ -90,7 +90,7 @@ const googleLogin = async (req, res) => {
   if (!email_verified) {
     throw new CustomError.UnauthenticatedError("Google login failed");
   }
-  console.log(email_verified, family_name, given_name, email, picture);
+
   let user = await User.findOne({ email });
 
   if (user.length === 0) {

@@ -28,6 +28,7 @@ cloudinary.config({
 //  routers
 const DenemeRouter = require("./routes/DenemeRoutes");
 const authRouter = require("./routes/authRoutes");
+const jobRouter = require("./routes/jobRoutes");
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
@@ -51,6 +52,7 @@ app.use(fileUpload({ useTempFiles: true }));
 //app.use("api/v1") stuff will come here
 app.use("/api/v1/deneme", DenemeRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/jobs", authenticateUser, jobRouter);
 
 // Handle client-side routing
 app.get("*", (req, res) => {
