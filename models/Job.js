@@ -1,34 +1,53 @@
 const mongoose = require("mongoose");
-
 const JobSchema = new mongoose.Schema(
   {
+    title: {
+      type: String,
+      required: [true, "Please provide a title"],
+      maxlength: 100,
+    },
+    description: {
+      type: String,
+      required: [true, "Please provide a description"],
+      maxlength: 1000,
+    },
+    location: {
+      type: String,
+      required: [true, "Please provide a location"],
+      maxlength: 100,
+    },
+    salary: {
+      type: String,
+      required: [true, "Please provide a salary"],
+      maxlength: 100,
+    },
     company: {
       type: String,
-      required: [true, "Please provide company name"],
-      maxlength: 50,
-    },
-    position: {
-      type: String,
-      required: [true, "Please provide position"],
+      required: [true, "Please provide a company"],
       maxlength: 100,
     },
     status: {
       type: String,
-      enum: ["interview", "declined", "pending", "hired"],
+      enum: ["interview", "declined", "pending"],
       default: "pending",
     },
-    jobType: {
+    img: {
       type: String,
-      enum: ["full-time", "part-time", "remote", "internship"],
-      default: "full-time",
+      default: "no-photo.jpg",
     },
-    jobLocation: {
-      type: String,
-      default: "remote",
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: "User",
       required: true,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 module.exports = mongoose.model("Job", JobSchema);
